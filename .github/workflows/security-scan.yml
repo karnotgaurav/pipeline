@@ -1,38 +1,38 @@
-name : Security pipeline
+name: Security Pipeline
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-#what does it do ?
+
 jobs:
   header-check:
     runs-on: ubuntu-latest
-    #step 1 get the code
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-    #step 2 setup python
-      - name: Set up Python
+
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-    #step 3 install dependencies
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Run header check
-        run: python3 scripts/headercheck.py
+        run: python3 scripts/header_check.py
 
-   secret-scan:
+  secret-scan:
     runs-on: ubuntu-latest
     steps:
-       - name: checkout-code
-         uses: actions/checkout@v3
-         with:
-            fetch-depth: 0
-    # step 4 scan for secrets with gitleaks
-      - name: scan for secrets with gitleaks
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Scan for secrets with Gitleaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
