@@ -22,4 +22,4 @@ for header in headers_to_check:
 
 	print("---")
 
-check_headers("https://google.com)
+check_headers("https://google.com")
